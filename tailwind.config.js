@@ -22,15 +22,15 @@ const config = {
       themes: {
         light: {
           colors: {
-            primary: { ...colors.cyan, DEFAULT: colors.cyan[300] },
-            default: { ...colors.cyan, DEFAULT: colors.cyan[300] },
+            primary: { ...colors.cyan, DEFAULT: "#01B8FB" },
+            default: { ...colors.cyan, DEFAULT: "#01B8FB" },
             background: colors.sky[50],
           },
         },
         dark: {
           colors: {
-            primary: { ...colors.sky, DEFAULT: colors.sky[300] },
-            default: { ...colors.sky, DEFAULT: colors.sky[300] },
+            primary: { ...colors.sky, DEFAULT: "#01B8FB" },
+            default: { ...colors.sky, DEFAULT: "#01B8FB" },
           },
         },
       },
