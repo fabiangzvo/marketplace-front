@@ -7,8 +7,9 @@ import {
   NavbarBrand,
   NavbarItem,
 } from "@heroui/navbar";
-import { Button } from "@heroui/button";
 import NextLink from "next/link";
+
+import { NavbarActions } from "./components/actions";
 
 import { ThemeSwitch } from "@/components/themeSwitch";
 
@@ -30,15 +31,7 @@ export function Navbar(): JSX.Element {
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            className="text-sm font-semibold"
-            color="primary"
-            variant="flat"
-          >
-            Login
-          </Button>
-        </NavbarItem>
+        <NavbarActions />
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">

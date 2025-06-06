@@ -3,7 +3,6 @@
 import { JSX, useCallback } from "react";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +13,7 @@ import { DialogFormButton } from "../dialogFormButton";
 import { PasswordInput } from "../passwordInput";
 
 import { type RegisterUserType, RegisterUserSchema } from "@/lib/schemas/user";
+import { registerUser } from "@/lib/actions/authentication";
 
 export interface SignUpButtonProps {
   isOpen: boolean;
@@ -33,39 +33,19 @@ export function SignUpButton({
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading },
+    formState: { errors, isLoading, isSubmitting },
   } = useForm<RegisterUserType>({
     resolver: zodResolver(RegisterUserSchema),
   });
 
   const onSubmit = useCallback(
-    async (formData: RegisterUserType) => {
-      const data: Omit<RegisterUserType, "confirmPassword"> = {
-        password: formData.password,
-        email: formData.email,
-      };
+    async (data: RegisterUserType) => {
+      const errorMessage = await registerUser(data);
 
-      if (formData.name) data.name = formData.name;
-
-      const res = await fetch("http://localhost:4000/auth/register", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        const error = await res.json();
-        let description = "No se ha podido crear el usuario.";
-
-        if (error.statusCode === 409)
-          description = "El correo electrónico ya está en uso.";
-
-        console.error(error);
+      if (errorMessage) {
         addToast({
           title: "Usuario no creado",
-          description,
+          description: errorMessage,
           variant: "bordered",
           color: "danger",
         });
@@ -73,6 +53,7 @@ export function SignUpButton({
         return;
       }
 
+      onSwitchModal();
       addToast({
         title: "Usuario creado!",
         description: "Ahora puedes iniciar sesión.",
@@ -80,7 +61,7 @@ export function SignUpButton({
         color: "success",
       });
     },
-    [router]
+    [router, registerUser, onSwitchModal]
   );
 
   return (
@@ -108,6 +89,7 @@ export function SignUpButton({
           placeholder="John Doe"
           type="text"
           variant="bordered"
+          disabled={isLoading || isSubmitting}
           {...register("name")}
         />
         <Input
@@ -120,23 +102,26 @@ export function SignUpButton({
           placeholder="tu@email.com"
           type="email"
           variant="bordered"
+          disabled={isLoading || isSubmitting}
           {...register("email")}
         />
         <PasswordInput
           errorMessage={errors.password?.message}
           isInvalid={!!errors.password?.message}
+          disabled={isLoading || isSubmitting}
           {...register("password")}
         />
         <PasswordInput
           errorMessage={errors.confirmPassword?.message}
           isInvalid={!!errors.confirmPassword?.message}
+          disabled={isLoading || isSubmitting}
           label="Confirmar contraseña"
           {...register("confirmPassword")}
         />
         <Button
           className="w-full mt-10 mb-4"
           color="primary"
-          isLoading={isLoading}
+          isLoading={isLoading || isSubmitting}
           type="submit"
         >
           Crear Cuenta

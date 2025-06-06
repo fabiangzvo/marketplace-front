@@ -1,0 +1,78 @@
+import { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+
+export const authOptions: AuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials) => {
+        try {
+          if (!credentials?.email || !credentials?.password)
+            throw new Error("Credentials are mandatory");
+
+          const res = await fetch("http://localhost:4000/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok && data.error) throw data;
+
+          if (data && data.user)
+            return {
+              id: data.user.sub,
+              name: data.user.name,
+              email: data.user.email,
+            };
+
+          return null;
+        } catch (error) {
+          console.error(error);
+
+          throw error;
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      if (!token) {
+        return session;
+      }
+
+      session.user = {
+        id: token.id as string,
+        email: token.email as string,
+        name: token.name as string,
+      };
+
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/",
+    error: "/",
+  },
+  session: {
+    strategy: "jwt",
+  },
+};
