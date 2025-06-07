@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ToastProvider } from "@heroui/toast";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
+
+import { store } from "@/lib/store";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -26,21 +29,23 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
 
   return (
-    <SessionProvider>
-      <HeroUIProvider navigate={router.push}>
-        <NextThemesProvider {...themeProps}>
-          <ToastProvider
-            placement="top-right"
-            toastProps={{
-              classNames: {
-                title: "font-bold text-xl",
-                description: "text-lg",
-              },
-            }}
-          />
-          {children}
-        </NextThemesProvider>
-      </HeroUIProvider>
-    </SessionProvider>
+    <Provider store={store}>
+      <SessionProvider>
+        <HeroUIProvider navigate={router.push}>
+          <NextThemesProvider {...themeProps}>
+            <ToastProvider
+              placement="top-right"
+              toastProps={{
+                classNames: {
+                  title: "font-bold text-xl",
+                  description: "text-lg",
+                },
+              }}
+            />
+            {children}
+          </NextThemesProvider>
+        </HeroUIProvider>
+      </SessionProvider>
+    </Provider>
   );
 }

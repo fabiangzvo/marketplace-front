@@ -1,3 +1,5 @@
+"use client";
+
 import { type JSX } from "react";
 import Image from "next/image";
 import {
@@ -6,10 +8,12 @@ import {
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
+  NavbarMenu,
 } from "@heroui/navbar";
 import NextLink from "next/link";
 
 import { NavbarActions } from "./components/actions";
+import { Cart } from "./components/cart";
 
 import { ThemeSwitch } from "@/components/themeSwitch";
 
@@ -36,8 +40,16 @@ export function Navbar(): JSX.Element {
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
+        <Cart />
         <NavbarMenuToggle />
       </NavbarContent>
+
+      <NavbarMenu>
+        <NavbarItem className="hidden sm:flex gap-2">
+          <ThemeSwitch />
+        </NavbarItem>
+        <NavbarActions />
+      </NavbarMenu>
     </HeroUINavbar>
   );
 }

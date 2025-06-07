@@ -1,14 +1,22 @@
-import { type JSX } from "react";
+import { useCallback, type JSX } from "react";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Library, CircleDollarSign, CircleUser } from "lucide-react";
 import { Button } from "@heroui/button";
 
+import { useAppDispatch } from "@/hooks/redux";
 import { Product } from "@/types/product";
+import { addToCart } from "@/lib/store/cart";
 
 interface ProductCardProps extends Product {}
 
 export function ProductCard(props: ProductCardProps): JSX.Element {
   const { id, name, price, quantity, seller, sku } = props;
+
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = useCallback(() => {
+    dispatch(addToCart({ id, name, price, seller, sku }));
+  }, [dispatch]);
 
   return (
     <Card className="w-full cursor-default px-2 ">
@@ -16,7 +24,10 @@ export function ProductCard(props: ProductCardProps): JSX.Element {
         <span className="text-lg font-semibold text-default-500">{name}</span>
       </CardHeader>
       <CardBody className="w-full pt-2">
-        <p className="mb-2 text-sm text-foreground-600">{sku}</p>
+        <p className="mb-3 text-foreground-600 flex gap-2">
+          <span className="font-semibold">SKU:</span>
+          {sku}
+        </p>
         <div className="gap-4 grid grid-cols-2 w-full">
           <p className="flex gap-4">
             <Library className="text-default-500" />
@@ -36,7 +47,9 @@ export function ProductCard(props: ProductCardProps): JSX.Element {
         </div>
       </CardBody>
       <CardFooter className="flex gap-2 justify-end">
-        <Button color="primary">Agregar al carrito</Button>
+        <Button color="primary" onPress={handleAddToCart}>
+          Agregar al carrito
+        </Button>
       </CardFooter>
     </Card>
   );

@@ -7,6 +7,8 @@ import { useSession, signOut } from "next-auth/react";
 import { Button } from "@heroui/button";
 import Link from "next/link";
 
+import { Cart } from "../cart";
+
 import { SignUpButton } from "@/components/signUpModal";
 import { SignInButton } from "@/components/signInModal";
 
@@ -41,9 +43,9 @@ export function NavbarActions(): JSX.Element {
           >
             Dashboard
           </Button>
-          <NavbarItem className="hidden md:flex">
+          <NavbarItem>
             <Button
-              className="text-lg"
+              className="text-lg max-sm:w-full"
               color="primary"
               href="/login"
               variant="flat"
@@ -58,7 +60,7 @@ export function NavbarActions(): JSX.Element {
 
     return (
       <Fragment>
-        <NavbarItem className="hidden md:flex">
+        <NavbarItem>
           <SignInButton
             isOpen={signInOpen}
             onOpen={signOnOpen}
@@ -66,7 +68,7 @@ export function NavbarActions(): JSX.Element {
             onSwitchModal={handleSwitchModal}
           />
         </NavbarItem>
-        <NavbarItem className="hidden md:flex">
+        <NavbarItem>
           <SignUpButton
             isOpen={isOpen}
             onOpen={onOpen}
@@ -88,5 +90,12 @@ export function NavbarActions(): JSX.Element {
     logout,
   ]);
 
-  return actions;
+  return (
+    <Fragment>
+      {actions}
+      <NavbarItem className="hidden md:flex">
+        <Cart />
+      </NavbarItem>
+    </Fragment>
+  );
 }
