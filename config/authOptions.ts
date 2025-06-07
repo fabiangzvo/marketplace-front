@@ -33,7 +33,7 @@ export const authOptions: AuthOptions = {
               id: data.user.sub,
               name: data.user.name,
               email: data.user.email,
-              token: data.token,
+              token: data.access_token,
             };
 
           return null;
@@ -59,9 +59,7 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (!token) {
-        return session;
-      }
+      if (!token) return session;
 
       session.user = {
         id: token.id as string,
@@ -72,12 +70,5 @@ export const authOptions: AuthOptions = {
 
       return session;
     },
-  },
-  pages: {
-    signIn: "/",
-    error: "/",
-  },
-  session: {
-    strategy: "jwt",
   },
 };
