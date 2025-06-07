@@ -46,6 +46,7 @@ export function SignInButton({
 
   return (
     <DialogFormButton
+      buttonClass="max-sm:w-full"
       buttonLabel="Iniciar sesión"
       color="primary"
       isOpen={isOpen}

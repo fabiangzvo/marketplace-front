@@ -18,12 +18,18 @@ export function DialogFormButton(props: DialogButtonProps): JSX.Element {
     isOpen,
     onOpen,
     onOpenChange,
+    buttonClass,
   } = props;
 
   return (
     <>
       <Tooltip content={tooltip} isDisabled={!tooltip}>
-        <Button color={color} variant={variant} onPress={onOpen}>
+        <Button
+          className={buttonClass}
+          color={color}
+          variant={variant}
+          onPress={onOpen}
+        >
           {buttonLabel}
         </Button>
       </Tooltip>

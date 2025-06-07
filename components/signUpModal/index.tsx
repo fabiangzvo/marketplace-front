@@ -66,6 +66,7 @@ export function SignUpButton({
 
   return (
     <DialogFormButton
+      buttonClass="max-sm:w-full"
       buttonLabel="Registrarse"
       color="primary"
       isOpen={isOpen}

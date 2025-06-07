@@ -76,8 +76,8 @@ export function ProductTable({
           handleSearch={handleSubmit}
           placeholder={
             userRole === "admin"
-              ? "Buscar por nombre, sku  ó vendedor"
-              : "Buscar por nombre ó sku"
+              ? "Buscar por nombre, sku o vendedor"
+              : "Buscar por nombre o sku"
           }
           variant="bordered"
         />

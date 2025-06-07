@@ -13,8 +13,8 @@ export default async function DashboardPage(): Promise<JSX.Element> {
 
   return (
     <div className="min-h-[70vh]">
-      <div className="flex justify-between">
-        <h1 className="text-lg font-bold mb-6">
+      <div className="flex justify-between max-md:flex-col max-md:mb-6">
+        <h1 className="text-lg font-bold mb-6 max-md:text-center">
           Hola {session?.user.name ?? session?.user?.email ?? "👋"}
         </h1>
         {session?.user.role === "seller" && (

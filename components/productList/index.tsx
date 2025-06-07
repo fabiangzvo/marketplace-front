@@ -45,23 +45,22 @@ export function ProductList(): JSX.Element {
     search: "",
   });
 
-  const { data, isLoading, mutate, error, size, setSize, isValidating } =
-    useInfiniteSWR(
-      (size: number, previousPageData: PaginateResult<Product>) => {
-        if (previousPageData && previousPageData.meta.page < size) return;
+  const { data, isLoading, size, setSize, isValidating } = useInfiniteSWR(
+    (size: number, previousPageData: PaginateResult<Product>) => {
+      if (previousPageData && previousPageData.meta.page < size) return;
 
-        return { ...state, page: size + 1 };
-      },
-      fetcher,
-      {
-        fallbackData: [
-          {
-            data: [],
-            meta: { limit: 0, total: 0, page: 0, totalPages: 0 },
-          },
-        ],
-      },
-    );
+      return { ...state, page: size + 1 };
+    },
+    fetcher,
+    {
+      fallbackData: [
+        {
+          data: [],
+          meta: { limit: 0, total: 0, page: 0, totalPages: 0 },
+        },
+      ],
+    },
+  );
 
   const { totalPages } = useMemo(
     () => data?.at(-1)?.meta || { totalPages: 1 },
@@ -79,7 +78,7 @@ export function ProductList(): JSX.Element {
   return (
     <div className="w-full">
       <SearchBar dispatch={dispatch} />
-      <div className="grid text-center h-full gap-x-8 gap-y-10 justify-items-center grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 relative">
+      <div className="grid text-center h-full gap-x-8 gap-y-10 justify-items-center grid-cols-3 max-xl:grid-cols-2 max-sm:grid-cols-1 relative">
         {data
           ?.map((response: PaginateResult<Product>) => response.data)
           ?.flat()

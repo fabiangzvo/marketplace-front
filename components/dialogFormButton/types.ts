@@ -10,4 +10,5 @@ export interface DialogButtonProps extends PropsWithChildren {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: () => void;
+  buttonClass?: string;
 }
