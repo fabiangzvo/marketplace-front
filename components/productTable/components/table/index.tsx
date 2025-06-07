@@ -53,11 +53,18 @@ function TableComponent(props: TableComponentProps): JSX.Element {
           );
         case "seller":
           return cellValue.name ?? cellValue.email;
+        case "price":
+          const price = new Intl.NumberFormat("es-CO", {
+            style: "currency",
+            currency: "COP",
+          }).format(cellValue);
+
+          return price;
         default:
           return cellValue;
       }
     },
-    [refreshData],
+    [refreshData]
   );
 
   return (
@@ -90,7 +97,7 @@ function TableComponent(props: TableComponentProps): JSX.Element {
         columns={[
           { key: "name", label: "Nombre" },
           { key: "sku", label: "SKU" },
-          { key: "price", label: "Precio" },
+          { key: "price", label: "Precio (COP)" },
           { key: "quantity", label: "Cantidad" },
           userRole === "admin"
             ? { key: "seller", label: "Vendedor" }
