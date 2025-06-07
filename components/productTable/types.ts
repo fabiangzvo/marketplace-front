@@ -8,3 +8,8 @@ export interface SearchState {
   page: number;
   search: string;
 }
+
+export interface SearchInfiniteState {
+  page: number;
+  search: string;
+}

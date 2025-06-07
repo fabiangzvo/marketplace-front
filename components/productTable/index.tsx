@@ -26,7 +26,7 @@ async function fetcher({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   if (!response.ok) throw new Error("No se pudo obtener los productos");

@@ -5,6 +5,7 @@ import { NavbarItem } from "@heroui/navbar";
 import { useDisclosure } from "@heroui/modal";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@heroui/button";
+import Link from "next/link";
 
 import { SignUpButton } from "@/components/signUpModal";
 import { SignInButton } from "@/components/signInModal";
@@ -30,11 +31,28 @@ export function NavbarActions(): JSX.Element {
   const actions = useMemo(() => {
     if (session?.user) {
       return (
-        <NavbarItem className="hidden md:flex">
-          <Button color="primary" href="/login" variant="flat" onPress={logout}>
-            Cerrar sesión
+        <Fragment>
+          <Button
+            as={Link}
+            className="font-medium text-lg"
+            color="primary"
+            href="/dashboard"
+            variant="light"
+          >
+            Dashboard
           </Button>
-        </NavbarItem>
+          <NavbarItem className="hidden md:flex">
+            <Button
+              className="text-lg"
+              color="primary"
+              href="/login"
+              variant="flat"
+              onPress={logout}
+            >
+              Cerrar sesión
+            </Button>
+          </NavbarItem>
+        </Fragment>
       );
     }
 

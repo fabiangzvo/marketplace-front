@@ -1,6 +1,9 @@
-import { title, subtitle } from "@/components/primitives";
+import { JSX } from "react";
 
-export default function Home() {
+import { title, subtitle } from "@/components/primitives";
+import { ProductList } from "@/components/productList";
+
+export default async function Home(): Promise<JSX.Element> {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <div className="inline-block max-w-xl text-center justify-center">
@@ -14,6 +17,7 @@ export default function Home() {
           Beautiful, fast and modern React UI library.
         </div>
       </div>
+      <ProductList />
     </section>
   );
 }
