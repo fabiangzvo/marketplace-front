@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroui/button": "2.2.20",
+    "@heroui/card": "^2.2.19",
     "@heroui/code": "2.2.15",
     "@heroui/input": "2.4.20",
     "@heroui/kbd": "2.2.16",
@@ -17,9 +18,11 @@
     "@heroui/listbox": "2.3.19",
     "@heroui/modal": "^2.2.17",
     "@heroui/navbar": "2.2.18",
+    "@heroui/pagination": "^2.2.18",
     "@heroui/snippet": "2.2.21",
     "@heroui/switch": "2.2.18",
     "@heroui/system": "2.4.16",
+    "@heroui/table": "^2.2.19",
     "@heroui/theme": "2.4.16",
     "@heroui/toast": "^2.0.10",
     "@hookform/resolvers": "^5.0.1",
@@ -35,6 +38,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.57.0",
+    "swr": "^2.3.3",
+    "tailwind-merge": "^3.3.0",
     "zod": "^3.25.55"
   },
   "devDependencies": {
