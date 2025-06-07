@@ -16,7 +16,7 @@ export default async function DashboardPage(): Promise<JSX.Element> {
         <h1 className="text-lg font-bold mb-6">
           Hola {session?.user.name ?? session?.user?.email ?? "👋"}
         </h1>
-        <Button as={Link} color="primary" href="/product/create">
+        <Button as={Link} color="primary" href="/products/create">
           Crear Producto
         </Button>
       </div>

@@ -41,7 +41,7 @@ export function SignInButton({
         color: "danger",
       });
     },
-    [handleSignIn]
+    [handleSignIn],
   );
 
   return (
