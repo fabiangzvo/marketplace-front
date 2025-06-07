@@ -29,7 +29,7 @@ function Actions(props: ActionProps): JSX.Element {
     try {
       const isRemoved = await deleteProduct(
         productId,
-        session?.user.token ?? ""
+        session?.user.token ?? "",
       );
 
       if (!isRemoved) {

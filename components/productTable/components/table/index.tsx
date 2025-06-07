@@ -57,7 +57,7 @@ function TableComponent(props: TableComponentProps): JSX.Element {
           return cellValue;
       }
     },
-    [refreshData]
+    [refreshData],
   );
 
   return (

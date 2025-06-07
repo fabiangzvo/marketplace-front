@@ -60,14 +60,14 @@ export function ProductForm({
         color: "danger",
       });
     },
-    [session?.user, handleSubmitForm, productId, successMessage]
+    [session?.user, handleSubmitForm, productId, successMessage],
   );
 
   return (
     <Form
       className={twMerge(
         "space-y-10 w-full flex flex-col items-center",
-        containerClass
+        containerClass,
       )}
       onSubmit={handleSubmit(onSubmit)}
     >

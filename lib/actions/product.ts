@@ -26,7 +26,7 @@ export async function createProduct({
 
 export async function deleteProduct(
   productId: string,
-  token: string
+  token: string,
 ): Promise<boolean> {
   const response = await fetch(`http://localhost:4000/products/${productId}`, {
     method: "DELETE",
@@ -45,7 +45,7 @@ export async function deleteProduct(
 }
 
 export async function getProductById(
-  productId: string
+  productId: string,
 ): Promise<Product | null> {
   const response = await fetch(`http://localhost:4000/products/${productId}`, {
     method: "GET",

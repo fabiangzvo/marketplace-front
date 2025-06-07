@@ -20,7 +20,7 @@ function SearchInput({
       event.preventDefault();
       await handleSearch(event.currentTarget.value);
     },
-    [handleSearch]
+    [handleSearch],
   );
 
   return (
