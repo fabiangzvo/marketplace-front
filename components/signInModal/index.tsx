@@ -1,15 +1,20 @@
 "use client";
 
-import { type JSX, useActionState } from "react";
+import { type JSX, useCallback } from "react";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { addToast } from "@heroui/toast";
 
 import { DialogFormButton } from "../dialogFormButton";
+
 import { type SignInButtonProps } from "./types";
 
 import { PasswordInput } from "@/components/passwordInput";
-import { handleSubmit } from "@/lib/actions/authentication";
+import { handleSignIn } from "@/lib/actions/authentication";
+import { SignInSchema, SignInType } from "@/lib/schemas/user";
 
 export function SignInButton({
   isOpen,
@@ -17,7 +22,27 @@ export function SignInButton({
   onOpenChange,
   onSwitchModal,
 }: SignInButtonProps): JSX.Element {
-  const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, "");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isLoading, isSubmitting },
+  } = useForm<SignInType>({
+    resolver: zodResolver(SignInSchema),
+  });
+
+  const onSubmit = useCallback(
+    async (data: SignInType) => {
+      const message = await handleSignIn(data);
+
+      addToast({
+        title: "Ingreso de cuenta",
+        description: message,
+        variant: "bordered",
+        color: "danger",
+      });
+    },
+    [handleSignIn]
+  );
 
   return (
     <DialogFormButton
@@ -34,7 +59,7 @@ export function SignInButton({
       <p className="text-lg mb-10 max-w-2xl mx-auto text-center">
         Inicia sesión para vender y gestionar tus productos
       </p>
-      <Form action={onSubmitForm}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           isRequired
           classNames={{
@@ -42,22 +67,26 @@ export function SignInButton({
             base: "my-10",
           }}
           disabled={isLoading}
-          errorMessage="Completa este campo"
+          errorMessage={errors.email?.message}
+          isInvalid={!!errors.email?.message}
           label="Correo electrónico"
           labelPlacement="outside"
-          name="email"
           placeholder="tu@email.com"
           type="email"
           variant="bordered"
+          {...register("email")}
         />
-        <PasswordInput disabled={isLoading} classNames={{ base: "mt-10" }} />
-        <p className="text-red-500 font-semibold text-center w-full text-lg h-5 my-4">
-          {error}
-        </p>
+        <PasswordInput
+          classNames={{ base: "mt-10 mb-8" }}
+          disabled={isLoading}
+          errorMessage={errors.password?.message}
+          isInvalid={!!errors.password?.message}
+          {...register("password")}
+        />
         <Button
           className="w-full mb-4"
           color="primary"
-          isLoading={isLoading}
+          isLoading={isLoading || isSubmitting}
           type="submit"
         >
           Ingresar

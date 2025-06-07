@@ -102,14 +102,12 @@ export default defineConfig([
       "prettier/prettier": "warn",
       "no-unused-vars": "off",
       "unused-imports/no-unused-vars": "off",
-      "unused-imports/no-unused-imports": "warn",
-      "unused-imports/unused-imports": ["error", { varsIgnorePattern: "^_*" }],
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
           args: "after-used",
           ignoreRestSiblings: false,
-          argsIgnorePattern: "^_.*?$",
+          argsIgnorePattern: "^_*",
         },
       ],
 

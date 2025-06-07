@@ -4,10 +4,10 @@ import { Fragment, useCallback, useMemo, type JSX } from "react";
 import { NavbarItem } from "@heroui/navbar";
 import { useDisclosure } from "@heroui/modal";
 import { useSession, signOut } from "next-auth/react";
+import { Button } from "@heroui/button";
 
 import { SignUpButton } from "@/components/signUpModal";
 import { SignInButton } from "@/components/signInModal";
-import { Button } from "@heroui/button";
 
 export function NavbarActions(): JSX.Element {
   const { data: session } = useSession();

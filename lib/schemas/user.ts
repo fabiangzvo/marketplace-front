@@ -32,3 +32,10 @@ export const RegisterUserSchema = z
   });
 
 export type RegisterUserType = z.infer<typeof RegisterUserSchema>;
+
+export const SignInSchema = z.object({
+  email: z.string().email("Correo inválido"),
+  password: z.string(),
+});
+
+export type SignInType = z.infer<typeof SignInSchema>;

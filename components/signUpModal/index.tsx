@@ -61,7 +61,7 @@ export function SignUpButton({
         color: "success",
       });
     },
-    [router, registerUser, onSwitchModal]
+    [router, registerUser, onSwitchModal],
   );
 
   return (
@@ -82,6 +82,7 @@ export function SignUpButton({
       <Form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
         <Input
           classNames={{ inputWrapper: "dark:border-default-500" }}
+          disabled={isLoading || isSubmitting}
           errorMessage={errors.name?.message}
           isInvalid={!!errors.name?.message}
           label="Nombre completo"
@@ -89,12 +90,12 @@ export function SignUpButton({
           placeholder="John Doe"
           type="text"
           variant="bordered"
-          disabled={isLoading || isSubmitting}
           {...register("name")}
         />
         <Input
           isRequired
           classNames={{ inputWrapper: "dark:border-default-500" }}
+          disabled={isLoading || isSubmitting}
           errorMessage={errors.email?.message}
           isInvalid={!!errors.email?.message}
           label="Email"
@@ -102,19 +103,18 @@ export function SignUpButton({
           placeholder="tu@email.com"
           type="email"
           variant="bordered"
-          disabled={isLoading || isSubmitting}
           {...register("email")}
         />
         <PasswordInput
+          disabled={isLoading || isSubmitting}
           errorMessage={errors.password?.message}
           isInvalid={!!errors.password?.message}
-          disabled={isLoading || isSubmitting}
           {...register("password")}
         />
         <PasswordInput
+          disabled={isLoading || isSubmitting}
           errorMessage={errors.confirmPassword?.message}
           isInvalid={!!errors.confirmPassword?.message}
-          disabled={isLoading || isSubmitting}
           label="Confirmar contraseña"
           {...register("confirmPassword")}
         />
