@@ -12,4 +12,6 @@ export interface SearchState {
 export interface SearchInfiniteState {
   page: number;
   search: string;
+  minPrice?: number;
+  maxPrice?: number;
 }
