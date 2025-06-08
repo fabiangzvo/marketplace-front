@@ -1,53 +1,77 @@
-# Next.js & HeroUI Template
+# Marketplace Frontend
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
-
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+A modern marketplace application built with Next.js, TypeScript and HeroUI.
 
 ## Technologies Used
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+- **Framework**: Next.js 15
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: HeroUI
+- **Authentication**: NextAuth.js
+- **State Management**: Redux
+- **Linting**: ESLint
+- **Code Formatting**: Prettier
 
-## How to Use
+## Project Structure
 
-### Use the template with create-next-app
-
-To create a new project based on this template using `create-next-app`, run the following command:
-
-```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
+```
+marketplace/
+├── app/                # Next.js app directory (pages and layouts)
+├── components/         # Reusable React components
+├── config/            # Configuration files
+├── hooks/             # Custom React hooks
+├── lib/               # Utility functions and shared logic
+├── public/            # Static assets
+├── styles/            # Global styles
+├── types/             # TypeScript type definitions
+└── utils/             # Helper functions
 ```
 
-### Install dependencies
+## Getting Started
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
-npm install
-```
-
-### Run the development server
+1. **Clone the repository**
 
 ```bash
-npm run dev
+git clone https://github.com/fabiangzvo/marketplace-front.git
+cd marketplace-front
 ```
 
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+2. **Install dependencies**
 
 ```bash
-public-hoist-pattern[]=*@heroui/*
+pnpm install
 ```
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+3. **Set up environment variables**
+   Copy the example environment file and modify it according to your needs:
 
-## License
+```bash
+cp .env.example .env
+```
 
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
+Edit the `.env` file with your specific configurations:
+
+| Variable              | Description                 | Default Value           |
+| --------------------- | --------------------------- | ----------------------- |
+| `NEXTAUTH_SECRET`     | Secret key for NextAuth.js  | -                       |
+| `NEXTAUTH_URL`        | Base URL for authentication | `http://localhost:3000` |
+| `NEXT_PUBLIC_API_URL` | Backend API endpoint        | `http://localhost:4000` |
+
+4. **Run the development server**
+
+```bash
+pnpm dev
+```
+
+#### 5. Production Mode
+
+```bash
+pnpm build && pnpm start
+```
+
+### 6. Linting
+
+```bash
+pnpm lint
+```
