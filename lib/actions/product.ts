@@ -1,25 +1,23 @@
 "use server";
 
+import axios from "../axios";
+
 import { Product, ProductEvent } from "@/types/product";
 
 export async function createProduct({
   formData,
   token,
 }: ProductEvent): Promise<string> {
-  const response = await fetch("http://localhost:4000/products", {
-    method: "POST",
-    body: JSON.stringify(formData),
+  const response = await axios.post("/products", formData, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (response.ok) return "";
+  if (response.status === 201) return "";
 
-  const error = await response.json();
-
-  console.error(error);
+  if (response.status === 409) return "El SKU ya existe, prueba uno diferente";
 
   return "No se pudo crear el producto.";
 }
@@ -28,18 +26,15 @@ export async function deleteProduct(
   productId: string,
   token: string,
 ): Promise<boolean> {
-  const response = await fetch(`http://localhost:4000/products/${productId}`, {
-    method: "DELETE",
+  const response = await axios.delete(`/products/${productId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (response.ok) return true;
+  if (response.status === 204) return true;
 
-  const error = await response.json();
-
-  console.error(error);
+  console.error(response);
 
   return false;
 }
@@ -47,15 +42,11 @@ export async function deleteProduct(
 export async function getProductById(
   productId: string,
 ): Promise<Product | null> {
-  const response = await fetch(`http://localhost:4000/products/${productId}`, {
-    method: "GET",
-  });
+  const response = await axios.get(`/products/${productId}`);
 
-  if (response.ok) return await response.json();
+  if (response.status === 200) return response.data;
 
-  const error = await response.json();
-
-  console.error(error);
+  console.error(response);
 
   return null;
 }
@@ -67,20 +58,20 @@ export async function updateProduct({
 }: ProductEvent): Promise<string> {
   if (!productId) return "No se encontro el producto.";
 
-  const response = await fetch(`http://localhost:4000/products/${productId}`, {
-    method: "PUT",
-    body: JSON.stringify(formData),
+  const response = await axios.put(`/products/${productId}`, formData, {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (response.ok) return "";
+  if (response.status === 200) return "";
 
-  const error = await response.json();
+  console.error(response);
 
-  console.error(error);
+  if (response.status === 403)
+    return "No tienes permiso para actualizar el producto.";
+
+  if (response.status === 404) return "No se encontro el producto.";
 
   return "No se pudo actualizar el producto.";
 }

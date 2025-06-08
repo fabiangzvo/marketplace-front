@@ -1,6 +1,8 @@
 import { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import axios from "@/lib/axios";
+
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -15,26 +17,22 @@ export const authOptions: AuthOptions = {
           if (!credentials?.email || !credentials?.password)
             throw new Error("Credentials are mandatory");
 
-          const res = await fetch("http://localhost:4000/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
+          const response = await axios.post("/auth/login", {
+            email: credentials?.email,
+            password: credentials?.password,
           });
 
-          const data = await res.json();
+          if (response.status !== 200) throw response;
 
-          if (!res.ok && data.error) throw data;
+          const { user, access_token: token } = response.data;
 
-          if (data && data.user)
+          if (token && user)
             return {
-              id: data.user.sub,
-              name: data.user.name,
-              email: data.user.email,
-              token: data.access_token,
-              role: data.user.role,
+              id: user.sub,
+              name: user.name,
+              email: user.email,
+              token,
+              role: user.role,
             };
 
           return null;

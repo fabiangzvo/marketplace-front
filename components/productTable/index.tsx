@@ -11,6 +11,7 @@ import { Product } from "@/types/product";
 import { reducer } from "@/utils/reducer";
 import SearchInput from "@/components/searchInput";
 import { PaginateResult } from "@/types/pagination";
+import axios from "@/lib/axios";
 
 async function fetcher({
   token,
@@ -18,20 +19,16 @@ async function fetcher({
 }: SearchState & { token: string }): Promise<PaginateResult<Product>> {
   const paramsUrl = new URLSearchParams(params as Record<string, any>);
 
-  const response = await fetch(
-    `http://localhost:4000/products?${paramsUrl.toString()}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+  const response = await axios.get(`/products?${paramsUrl.toString()}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 
-  if (!response.ok) throw new Error("No se pudo obtener los productos");
+  if (response.status !== 200)
+    throw new Error("No se pudo obtener los productos");
 
-  return response.json();
+  return response.data;
 }
 
 export function ProductTable({

@@ -13,6 +13,7 @@ import { useIntersection } from "@/hooks/intersectionObserver";
 import { PaginateResult } from "@/types/pagination";
 import { Product } from "@/types/product";
 import { reducer } from "@/utils/reducer";
+import axios from "@/lib/axios";
 
 async function fetcher({
   ...params
@@ -22,21 +23,12 @@ async function fetcher({
   if (params.maxPrice === 0) paramsUrl.delete("maxPrice");
   if (params.minPrice === 0) paramsUrl.delete("minPrice");
 
-  paramsUrl.set("limit", "2");
+  const response = await axios.get(`/products?${paramsUrl.toString()}`);
 
-  const response = await fetch(
-    `http://localhost:4000/products?${paramsUrl.toString()}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
+  if (response.status !== 200)
+    throw new Error("No se pudo obtener los productos");
 
-  if (!response.ok) throw new Error("No se pudo obtener los productos");
-
-  return response.json();
+  return response.data;
 }
 
 export function ProductList(): JSX.Element {

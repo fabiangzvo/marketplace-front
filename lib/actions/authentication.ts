@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 
 import { RegisterUserType, SignInType } from "../schemas/user";
 
+import axios from "@/lib/axios";
+
 export async function handleSignIn(formData: SignInType): Promise<string> {
   const response = await signIn("credentials", {
     email: formData.email,
@@ -28,21 +30,11 @@ export async function registerUser(
 
   if (formData.name) data.name = formData.name;
 
-  const res = await fetch("http://localhost:4000/auth/register", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.post("/auth/register", data);
 
-  if (res.ok) return;
+  if (response.status === 201) return "";
 
-  const error = await res.json();
-
-  console.error(error);
-
-  if (error.statusCode === 409) return "El correo electrónico ya está en uso.";
+  if (response.status === 409) return "El correo electrónico ya está en uso.";
 
   return "No se ha podido crear el usuario.";
 }
