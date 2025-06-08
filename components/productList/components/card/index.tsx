@@ -16,7 +16,7 @@ export function ProductCard(props: ProductCardProps): JSX.Element {
 
   const handleAddToCart = useCallback(() => {
     dispatch(
-      addToCart({ id, name, price, seller, sku, storeQuantity: quantity })
+      addToCart({ id, name, price, seller, sku, storeQuantity: quantity }),
     );
   }, [dispatch]);
 
